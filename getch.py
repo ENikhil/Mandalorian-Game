@@ -1,4 +1,5 @@
 class _getChUnix:
+
     def __init__(self):
         import tty
         import sys
