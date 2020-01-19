@@ -1,11 +1,11 @@
 import numpy as np
 
-class Character:
+class Character():
     def __init__(self, x, y, str):
-        self.x=x
-        self.y=y
-        self.char=str
-    
+        self.x = x
+        self.y = y
+        self.char = str
+        
     def x_get(self):
         return self.x
     
