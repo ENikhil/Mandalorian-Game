@@ -62,20 +62,16 @@ class Element:
     def erase(self, ch='x', num=1):
         a = 0
         b = 0
-        if(ch=='x'):   
+        if ch == 'x':   
             pass
-        elif(ch=='r'):
-            a = 0
+        elif ch == 'r':
             b = -num
-        elif(ch=='l'):
-            a = 0
+        elif ch == 'l':
             b = num
-        elif(ch=='d'):
+        elif ch == 'd':
             a = -num
-            b = 0
-        elif(ch=='u'):
+        elif ch == 'u':
             a = num
-            b = 0
         for i in range(self._height):
             sys.stdout.write("\x1b[%d;%df%s" % (self._y+i+a, self._x+b, " "*self._length))
             sys.stdout.flush()
@@ -108,3 +104,13 @@ class Element:
             self.printc('d', num)
         else:
             pass
+        
+    def remove(self):
+        self.erase()
+        self.change_scope()
+    
+    def move(self, matrix, num=1):
+        if self.scope()==1 and self.x()>1+num:
+            self.update_loc(matrix, 'l', num)
+        else:
+            self.remove()

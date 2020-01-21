@@ -23,4 +23,3 @@ def getTerminalSize():
     return int(cr[1]), int(cr[0])
 
 a = getTerminalSize()
-print(a)

@@ -7,12 +7,24 @@ import time as t
 os.system('clear')
 grid.print_Grid()
 mando = Mandalorian(5, 30, ascii[0])
+#grid.appendlist(mando)
+last_gen_time = 0
+last_mov_time = 0
+gen_time = 2
+mov_time = 0.2
 
 while(1):
+    #if mando.lives() == 0:
+    #    quit()
+    mando.move(grid.matrix(), grid.boost())
+    if t.time() - last_mov_time > mov_time:
+        for o in grid.getlist():
+            if o.scope() == 0:
+                grid.getlist().remove(o)
+                del o
+            else:
+                o.move(grid.matrix(), grid.boost())
+        last_mov_time = t.time()
+    #if t.time() - last_gen_time > gen_time:
     grid.generate()
-    for o in grid.getlist():
-        if o.scope() == 0:
-            del o
-        else:
-            o.move(grid._matrix)
-    mando.movement(grid._matrix)
+        #last_gen_time = t.time()

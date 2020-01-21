@@ -20,16 +20,21 @@ class Beam(Element):
             self.setlength(1)
             self.printd()
     
-    def erased(self, num=1):
+    def type(self):
+        return self._type
+    
+    def erased(self, ch = 'x', num=1):
         a = 0
-        b = num
+        b = 0
+        if ch == 'l':
+            b = num
         for i in range(9):
             sys.stdout.write("\x1b[%d;%df%s" % (self.y()+i+a, self.x()+2*i+b, " "*self.length()))
             sys.stdout.flush()
 
     def printd(self, ch='x', num=1):
         if ch == 'x':
-            self.erased(num)
+            self.erased('l', num)
         for i in range(9):
             sys.stdout.write("\x1b[%d;%df%s" % (self.y()+i, self.x()+2*i, "o"))
             sys.stdout.flush()
@@ -40,17 +45,20 @@ class Beam(Element):
             self.printd('x', num)
         else:
             pass
-            
+    
+    def remove(self):
+        if self._type <= 1:
+            self.erase()
+            self.change_scope()
+        elif self._type == 2:
+            self.erased()
+            self.change_scope()
+    
     def move(self, matrix, num=1):
-        if self.scope()==1 and self.x()>2:
+        if self.scope()==1 and self.x()>1+num:
             if self._type <= 1:
                 self.update_loc(matrix, 'l', num)
             elif self._type == 2:
                 self.updated(matrix, 'l', num)
         else:
-            if self._type <= 1:
-                self.erase()
-                self.change_scope()
-            elif self._type == 2:
-                self.erased()
-                self.change_scope()
+            self.remove()
