@@ -51,6 +51,3 @@ class KBHit:
         else:
             dr,dw,de = select([sys.stdin], [], [], 0)
             return dr != []
-        
-#kb = KBhit()
-#input = kb.getch()

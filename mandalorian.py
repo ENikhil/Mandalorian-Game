@@ -1,50 +1,53 @@
-from character import Character
-import getch as inp
+from element import Element
+import inp
 from grid import grid
 import sys
 
-class Mandalorian(Character):
+class Mandalorian(Element):
     def __init__(self, x, y, str):
-        Character.__init__(self, x, y, str)
-        self.body = self.char.split("\n")
-        self.height = len(self.body)
-        self.length = len(self.body[0])
-        #print(self.height, self.length)
+        Element.__init__(self, x, y, str)
+        self._downvelocity = 1
+        self._hvelocity = 0
+        self._gravity = 1
+        self._lives = 3
+        self._bullet = "="
+        self._boost = 0
+        self.printc()
     
-    def printmando(self, matrix):
-        for i in range(self.height):
-            sys.stdout.write("\x1b[%d;%df%s" % (self.y+i, self.x, self.body[i]))
-            sys.stdout.flush()
+    def gravity(self):
+        return self._gravity
     
-    def erasemando(self, matrix):
-        for i in range(self.height):
-            sys.stdout.write("\x1b[%d;%df%s" % (self.y+i, self.x, ' '*self.length))
-            sys.stdout.flush()
+    def lives(self):
+        return self._lives
+    
+    def dec_lives(self):
+        self._lives-=1
         
-    def update_loc(self, matrix, ch):
-        if ch == 'l' and self.x > 1:
-            self.x-=1
-            erasemando(matrix)
-            printmando(matrix)
-        elif ch == 'r' and self.x < len(matrix[0])-1:
-            self.x+=1
-            erasemando(matrix)
-            printmando(matrix)
-        elif ch == 'u' and self.y > 1:
-            self.y-=1
-            erasemando(matrix)
-            printmando(matrix)
-            
-    #def movement(self, matrix):
-
-    #    def USER_INP(timeout=0.1):
-            
-        
-    #    key = USER_INP()
-        
-    #    if key == 'a':
-    #        self.update_loc(matrix, 'l')
-    #    elif key == 'd':
-    #        self.update_loc(matrix, 'r')
-    #    elif key == 'w':
-    #        self.update_loc(matrix, 'u')
+    def inc_lives(self):
+        self._lives+=1
+    
+    def accelerate(self):
+        self._velocity+=self._gravity
+    
+    def reset_downvelocity(self):
+        self._velocity=1
+    
+    def movement(self, matrix):
+        kb = inp.KBHit()
+        if(kb.kbhit()):
+            key = kb.getch()
+            if key == 'a':
+                self.update_loc(matrix, 'l')
+            elif key == 'd':
+                self.update_loc(matrix, 'r')
+            elif key == 'w':
+                if self._downvelocity > 5:
+                    self.reset_downvelocity()
+                    self.update_loc(matrix, 'u')
+                else:
+                    self.reset_downvelocity()
+                    self.update_loc(matrix, 'u', 2)
+            elif key == 's':
+                self.update_loc(matrix, 'd')
+            elif key == 'q':
+                quit()

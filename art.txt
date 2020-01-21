@@ -4,25 +4,11 @@
 
 ($)
 
-o
-  o
-    o
-      o
-        o
-          o
-            o
-              o
+ __ 
+|>>|
+ ‾‾ 
 
-              o
-            o
-          o
-        o
-      o
-    o
-  o
-o
-
-o o o o o o o o
+o o o o o o o o o
 
 o
 o
@@ -32,3 +18,8 @@ o
 o
 o
 o
+o
+
+|‾| |‾|
+| |_| |
+(_____)

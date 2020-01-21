@@ -1,7 +1,13 @@
-import numpy as np
+#import numpy as np
 import sys
-from terminal import getTerminalSize
+#from terminal import getTerminalSize
 #from getch import _getChUnix
+import random
 
-sys.stdout.write("\x1b[%d;%df%s" % (10, 9, 'l'*3))
-sys.stdout.flush()
+flag = 1
+while flag==1:
+    if random.randrange(start=0, stop=2, step=1)==2:
+        flag = 0
+        print("success yeet")
+        
+#print(random.randrange(start=0, stop=1, step=1))
