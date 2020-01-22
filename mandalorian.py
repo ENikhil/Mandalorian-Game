@@ -1,8 +1,9 @@
 from element import Element
-import inp
+from inp import kb
 from grid import grid
 from bullet import Bullet
 import sys
+import time as t
 
 class Mandalorian(Element):
     def __init__(self, x, y, str):
@@ -15,8 +16,9 @@ class Mandalorian(Element):
         self._shield = 0
         self._coins = 0
         self._boost = 0
-        self.printc()
         self._type = "mando"
+        self._time = 0
+        self.printc()
     
     def gravity(self):
         return self._gravity
@@ -34,21 +36,29 @@ class Mandalorian(Element):
         self._coins-=10
         self._lives+=1
     
+    def acceltime(self):
+        return self._time
+    
+    def setacceltime(self, time):
+        self._time = time
+    
     def accelerate(self):
-        self._velocity+=self._gravity
+        self._downvelocity+=self._gravity
 
     def shieldtoggle(self):
         self._shield = 1 - self._shield
+    
+    def dvelocity(self):
+        return self._downvelocity
     
     def reset_downvelocity(self):
         self._velocity=1
     
     def createBullet(self):
-        goli = Bullet(self.x()+self.length()-1, self.y()+1)
+        goli = Bullet(self.x()+self.length(), self.y()+1)
         grid.appendlist(goli)
     
     def move(self, matrix, num):
-        kb = inp.KBHit()
         if(kb.kbhit()):
             key = kb.getch()
             if key == 'a':
@@ -56,6 +66,7 @@ class Mandalorian(Element):
             elif key == 'd':
                 self.update_loc(matrix, 'r', 2)
             elif key == 'w':
+                self._time = t.time()
                 if self._downvelocity > 5:
                     self.reset_downvelocity()
                     self.update_loc(matrix, 'u', 1)
@@ -64,10 +75,12 @@ class Mandalorian(Element):
                     self.update_loc(matrix, 'u', 2)
             elif key == 's':
                 self.update_loc(matrix, 'd', 2)
+            elif key == 'e':
+                self.createBullet()
             elif key == ' ':
                 self._shield = 1
             elif key == 'q':
-                quit()        
+                quit()
         for o in grid.getlist():
             if o.name() == "coin":
                 if (0<=o.x()-self.x()<=4 or 0<=self.x()-o.x()<=2) and (0<=o.y()-self.y()<=2 or 0<=self.y()-o.y()<=0):
@@ -91,7 +104,7 @@ class Mandalorian(Element):
                 elif o.type() == 2:
                     flag = 0
                     for i in range(8):
-                        if 0<=o.x()+i-self.x()<=4 and 0<=o.y()+i-self.y()<=2:
+                        if 0<=o.x()+2*i-self.x()<=4 and 0<=o.y()+i-self.y()<=2:
                             flag = 1
                             break
                     if flag:

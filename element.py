@@ -99,9 +99,13 @@ class Element:
             elif self._y == 3+num:
                 self._y-=num-1
                 self.printc('u', num-1)
-        elif ch == 'd' and self._y < (len(matrix) - self._height - 1 - num):
-            self._y+=num
-            self.printc('d', num)
+        elif ch == 'd':
+            if self._y < (len(matrix) - self._height - 1 - num):
+                self._y+=num
+                self.printc('d', num)
+            # else:
+            #     self.printc('d', len(matrix)-1-num)-self._y)
+            #     self._y = len(matrix)-1-num
         else:
             pass
         

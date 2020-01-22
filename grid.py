@@ -50,18 +50,18 @@ class Grid():
         elif self._boost ==3:
             self._boost = 1
     
-    def generate(self):
-        num = random.randrange(0, 4, 1)
-        if num == 0 and t.time()-self._lastcoin>self._coingen:
+    def generate(self, num):
+        if num == 0 and t.time()-self._lastcoin>2:
             y = random.randrange(4, self._columnlen-3, 1)
             paisa = Coin(self._rowlen-5, y, ascii[1])
             self._objectlist.append(paisa)
             self._lastcoin=t.time()
-        elif num == 1 and t.time()-self._lastboost>self._boostgen:
+        elif num == 1 and t.time()-self._lastboost>30:
             y = random.randrange(4, self._columnlen-3, 1)
             vroom = Boost(self._rowlen-6, y, ascii[2])
             self._objectlist.append(vroom)
-        elif num == 2 and t.time()-self._lastbeam>self._beamgen:
+            self._lastboost=t.time()
+        elif num == 2 and t.time()-self._lastbeam>2:
             shape = random.randrange(0, 3, 1)
             if shape == 0:
                 y = random.randrange(4, self._columnlen-3, 1)
@@ -73,6 +73,7 @@ class Grid():
                 y = random.randrange(4, self._columnlen-11, 2)
                 fire = Beam(self._rowlen-19, y, "o", 2)
             self._objectlist.append(fire)
+            self._lastbeam=t.time()
 
 a = getTerminalSize()
 grid = Grid(a[0], a[1])
