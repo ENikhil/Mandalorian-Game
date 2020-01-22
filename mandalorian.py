@@ -111,27 +111,31 @@ class Mandalorian(Element):
                 quit()
         for o in grid.getlist():
             if o.name() == "coin":
-                if (0<=o.x()-self.x()<=4 or 0<=self.x()-o.x()<=2) and (0<=o.y()-self.y()<=2 or 0<=self.y()-o.y()<=0):
+                if o.scope()==1 and (0<=o.x()-self.x()<=4 or 0<=self.x()-o.x()<=2) and (0<=o.y()-self.y()<=2 or 0<=self.y()-o.y()<=0):
                     o.remove()
+                    del o
                     self.printc()
                     self._coins+=1
             elif o.name() == "boost":
-                if (0<=o.x()-self.x()<=4 or 0<=self.x()-o.x()<=3) and (0<=o.y()-self.y()<=2 or 0<=self.y()-o.y()<=3):
+                if o.scope()==1 and (0<=o.x()-self.x()<=4 or 0<=self.x()-o.x()<=3) and (0<=o.y()-self.y()<=2 or 0<=self.y()-o.y()<=3):
                     o.remove()
+                    del o
                     if self._boost == 0:
                         grid.toggleboost()
             elif o.name() == "beam" and self._shield == 0:
-                if o.type() == 0 and (0<=o.x()-self.x()<=4 or 0<=self.x()-o.x()<=16) and (0<=o.y()-self.y()<=2 or 0<=self.y()-o.y()<=0):
+                if o.scope()==1 and o.type() == 0 and (0<=o.x()-self.x()<=4 or 0<=self.x()-o.x()<=16) and (0<=o.y()-self.y()<=2 or 0<=self.y()-o.y()<=0):
                     o.remove()
+                    del o
                     self.printc()
                     self._lives-=1
                     #print("gg")
-                elif o.type() == 1 and 0<=o.x()-self.x()<=4 and (0<=o.y()-self.y()<=2 or 0<=self.y()-o.y()<=7):
+                elif o.scope()==1 and o.type() == 1 and 0<=o.x()-self.x()<=4 and (0<=o.y()-self.y()<=2 or 0<=self.y()-o.y()<=7):
                     o.remove()
+                    del o
                     self.printc()
                     self._lives-=1
                     #print("gg")
-                elif o.type() == 2:
+                elif o.scope()==1 and o.type() == 2:
                     flag = 0
                     for i in range(9):
                         if 0<=o.x()+2*i-self.x()<=4 and self.y()==o.y()-i:
@@ -139,11 +143,13 @@ class Mandalorian(Element):
                             break
                     if flag:
                         o.remove()
+                        del o
                         self.printc()
                         self._lives-=1
                         #print("gg")
-            elif o.name() == "ball" and self._shield == 0:
+            elif o.scope()==1 and o.name() == "ball" and self._shield == 0:
                 if 0<=o.x()-self.x()<=4 and 0<=o.y()-self.y()<=2:
                     o.remove()
+                    del o
                     self.printc()
                     self._lives-=1

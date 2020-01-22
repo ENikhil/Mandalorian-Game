@@ -58,7 +58,7 @@ class Grid():
             paisa = Coin(self._rowlen-5, y, ascii[1])
             self._objectlist.append(paisa)
             self._lastcoin=t.time()
-        elif num == 1 and t.time()-self._lastmagnet>self._magnetgen/self._boost:
+        elif num == 5:
             y = random.randrange(4, self._columnlen-5, 1)
             chep = Magnet(self._rowlen-9, y, ascii[5])
             self._objectlist.append(chep)

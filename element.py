@@ -106,9 +106,9 @@ class Element:
                 self._y+=num
                 self.printc('d', num)
             else:
-                num = len(matrix) - self._height - 1 - self._y
+                num = len(matrix) - self._height - 2 - self._y
                 self._y = len(matrix)-2-self._height
-                self.printc('d', num-1)
+                self.printc('d', num)
         else:
             pass
         

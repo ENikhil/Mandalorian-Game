@@ -20,9 +20,11 @@ class Bullet(Element):
             if o.name() == "beam":
                 if o.type()==0 and 0<=o.x()-self.x()<=16 and (0<=o.y()-self.y()<=1 or 0<=self.y()-o.y()<=1):
                     o.remove()
+                    del o
                     self.remove()
                 elif o.type()==1 and (0<=self.x()-o.x()<=2 or 0<=o.x()-self.x()<=2) and 0<=self.y()-o.y()<=7:
                     o.remove()
+                    del o
                     self.remove()
                 elif o.type() == 2:
                     flag = 0
@@ -32,4 +34,14 @@ class Bullet(Element):
                             break
                     if flag:
                         o.remove()
+                        del o
                         self.remove()
+            elif o.name() == "dragon":
+                if 0<=self.x()-o.x()<=o.length()-1 and (o.y()==self.y() or 0<=self.y()-o.y()<=14):
+                    o.dec_lives()
+                    self.remove()
+            elif o.name() == "ball":
+                if -2<=o.x()-self.x()<=2 and o.y()==self.y():
+                    o.remove()
+                    del o
+                    self.remove()
