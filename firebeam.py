@@ -56,7 +56,7 @@ class Beam(Element):
     
     def move(self, matrix, num=1):
         if self.scope()==1 and self.x()>1+num:
-            if self._type <= 1:
+            if self._type ==0 or self._type == 1:
                 self.update_loc(matrix, 'l', num)
             elif self._type == 2:
                 self.updated(matrix, 'l', num)

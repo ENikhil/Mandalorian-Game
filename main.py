@@ -17,21 +17,22 @@ mov_time = 0.1
 mando.setacceltime(t.time())
 
 while(1):
-    #if mando.lives() == 0:
-    #    quit()
+    if mando.lives() == 0:
+        quit()
     mando.move(grid.matrix(), grid.boost())
-    if t.time() - last_mov_time > mov_time:
+    if t.time() - last_mov_time > mov_time/grid.boost():
         for o in grid.getlist():
             if o.scope() == 0:
                 grid.getlist().remove(o)
                 del o
             else:
                 o.move(grid.matrix(), grid.boost())
+        mando.checkmagnet(grid.matrix())
         last_mov_time = t.time()
-    if t.time()-mando.acceltime() > mov_time:
+    if t.time()-mando.acceltime() > mov_time*2.5/grid.boost():
         mando.update_loc(grid.matrix(), 'd', mando.dvelocity())
         mando.accelerate()
-    #if t.time() - last_gen_time > gen_time:
+        mando.setacceltime(t.time())    
     num = random.randrange(0, 4, 1)
     grid.generate(num)
     #    last_gen_time = t.time()

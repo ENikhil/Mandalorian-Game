@@ -10,14 +10,18 @@ class Mandalorian(Element):
         Element.__init__(self, x, y, str)
         self._downvelocity = 1
         self._hvelocity = 0
+        self._vvelocity = 0
         self._gravity = 1
         self._lives = 3
         self._bullet = "="
+        self._timebullet = 0
         self._shield = 0
         self._coins = 0
         self._boost = 0
         self._type = "mando"
         self._time = 0
+        self._magnettime = 0
+        self._creationtime = t.time()
         self.printc()
     
     def gravity(self):
@@ -52,11 +56,36 @@ class Mandalorian(Element):
         return self._downvelocity
     
     def reset_downvelocity(self):
-        self._velocity=1
+        self._downvelocity=1
     
     def createBullet(self):
-        goli = Bullet(self.x()+self.length(), self.y()+1)
-        grid.appendlist(goli)
+        if t.time()-self._timebullet>1:
+            goli = Bullet(self.x()+self.length(), self.y()+1)
+            grid.appendlist(goli)
+            self._timebullet=t.time()
+    
+    def checkmagnet(self, matrix):
+        a = 0
+        b = 0
+        for o in grid.getlist():
+            if o.name() == "magnet":
+                if o.y()>self._y:
+                    a = -1
+                elif o.y() < self._y:
+                    a = 1
+                if o.x()>self._x:
+                    b = 1
+                elif o.x()<self._x:
+                    b = -1
+        if a > 0:
+            self.update_loc(matrix, 'd', 1)
+        elif a < 0:
+            self.update_loc(matrix, 'u', 1)
+        if b > 0:
+            self.update_loc(matrix, 'r', 1)
+        elif b < 0:
+            self.update_loc(matrix, 'l', 1)
+        
     
     def move(self, matrix, num):
         if(kb.kbhit()):
@@ -66,15 +95,14 @@ class Mandalorian(Element):
             elif key == 'd':
                 self.update_loc(matrix, 'r', 2)
             elif key == 'w':
-                self._time = t.time()
                 if self._downvelocity > 5:
-                    self.reset_downvelocity()
                     self.update_loc(matrix, 'u', 1)
                 else:
-                    self.reset_downvelocity()
                     self.update_loc(matrix, 'u', 2)
+                self._time = t.time()
+                self.reset_downvelocity()
             elif key == 's':
-                self.update_loc(matrix, 'd', 2)
+                self.update_loc(matrix, 'd', 1)
             elif key == 'e':
                 self.createBullet()
             elif key == ' ':
@@ -90,27 +118,30 @@ class Mandalorian(Element):
             elif o.name() == "boost":
                 if (0<=o.x()-self.x()<=4 or 0<=self.x()-o.x()<=3) and (0<=o.y()-self.y()<=2 or 0<=self.y()-o.y()<=3):
                     o.remove()
-                    #if self._boost == 0:
-                    #    grid.toggleboost()
+                    if self._boost == 0:
+                        grid.toggleboost()
             elif o.name() == "beam" and self._shield == 0:
                 if o.type() == 0 and (0<=o.x()-self.x()<=4 or 0<=self.x()-o.x()<=16) and (0<=o.y()-self.y()<=2 or 0<=self.y()-o.y()<=0):
                     o.remove()
                     self.printc()
                     self._lives-=1
-                elif o.type() == 1 or 0<=o.x()-self.x()<=4 and (0<=o.y()-self.y()<=2 or 0<=self.y()-o.y()<=7):
+                    #print("gg")
+                elif o.type() == 1 and 0<=o.x()-self.x()<=4 and (0<=o.y()-self.y()<=2 or 0<=self.y()-o.y()<=7):
                     o.remove()
                     self.printc()
                     self._lives-=1
+                    #print("gg")
                 elif o.type() == 2:
                     flag = 0
-                    for i in range(8):
-                        if 0<=o.x()+2*i-self.x()<=4 and 0<=o.y()+i-self.y()<=2:
+                    for i in range(9):
+                        if 0<=o.x()+2*i-self.x()<=4 and self.y()==o.y()-i:
                             flag = 1
                             break
                     if flag:
                         o.remove()
                         self.printc()
                         self._lives-=1
+                        #print("gg")
             elif o.name() == "ball" and self._shield == 0:
                 if 0<=o.x()-self.x()<=4 and 0<=o.y()-self.y()<=2:
                     o.remove()

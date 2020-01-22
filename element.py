@@ -46,6 +46,8 @@ class Element:
         self._body = arr
         self._height = len(arr)
         self._length = len(arr[0])
+        #print(self._height)
+        #print(self._height)
     
     def scope(self):
         return self._scope
@@ -103,9 +105,10 @@ class Element:
             if self._y < (len(matrix) - self._height - 1 - num):
                 self._y+=num
                 self.printc('d', num)
-            # else:
-            #     self.printc('d', len(matrix)-1-num)-self._y)
-            #     self._y = len(matrix)-1-num
+            else:
+                num = len(matrix) - self._height - 1 - self._y
+                self._y = len(matrix)-2-self._height
+                self.printc('d', num-1)
         else:
             pass
         
