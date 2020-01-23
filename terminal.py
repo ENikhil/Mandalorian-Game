@@ -20,4 +20,7 @@ def getTerminalSize():
             pass
     if not cr:
         cr = (env.get('LINES', 25), env.get('COLUMNS', 80))
-    return int(cr[0]), int(cr[1])
+    return int(cr[1]), int(cr[0])
+
+a = getTerminalSize()
+#print(a)
