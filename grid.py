@@ -19,8 +19,10 @@ class Grid():
         self._magnetgen = 45
         self._lastcoin = 0
         self._lastbeam = 0
-        self._lastboost = 0
+        self._timeboost = 0
         self._lastmagnet = 0
+        self._score = 0
+        self._boss = 0
         self._matrix=[[" " for i in range(self._rowlen)] for i in range(self._columnlen)]
         for i in range(self._columnlen):
             for j in range(self._rowlen):
@@ -49,8 +51,27 @@ class Grid():
     def toggleboost(self):
         if self._boost == 1:
             self._boost = 3
-        elif self._boost ==3:
+            self._timeboost=t.time()
+        elif t.time()-self._timeboost>5 and self._boost==3:
             self._boost = 1
+    
+    def timeboost(self):
+        return self._timeboost
+    
+    def changetimeboost(self, a):
+        self._timeboost = a
+    
+    def score(self):
+        return self._score
+    
+    def addscore(self, a):
+        self._score+=a
+    
+    def boss(self):
+        return self._boss
+    
+    def changeboss(self):
+        self._boss=1-self._boss
     
     def generate(self, num):
         if num == 0 and t.time()-self._lastcoin>self._coingen/self._boost:
@@ -58,11 +79,6 @@ class Grid():
             paisa = Coin(self._rowlen-5, y, ascii[1])
             self._objectlist.append(paisa)
             self._lastcoin=t.time()
-        elif num == 5:
-            y = random.randrange(4, self._columnlen-5, 1)
-            chep = Magnet(self._rowlen-9, y, ascii[5])
-            self._objectlist.append(chep)
-            self._lastmagnet=t.time()
         elif num == 2 and t.time()-self._lastbeam>self._beamgen/self._boost:
             shape = random.randrange(0, 3, 1)
             if shape == 0:
@@ -76,11 +92,16 @@ class Grid():
                 fire = Beam(self._rowlen-19, y, "o", 2)
             self._objectlist.append(fire)
             self._lastbeam=t.time()
-        elif num == 4 and t.time()-self._lastboost>30:
+        elif num == 4:
             y = random.randrange(4, self._columnlen-3, 1)
             vroom = Boost(self._rowlen-6, y, ascii[2])
             self._objectlist.append(vroom)
-            self._lastboost=t.time()
-        
+            self._timeboost=t.time()
+        elif num == 5:
+            y = random.randrange(4, self._columnlen-5, 1)
+            chep = Magnet(self._rowlen-9, y, ascii[5])
+            self._objectlist.append(chep)
+            self._lastmagnet=t.time()
+
 a = getTerminalSize()
 grid = Grid(a[0], a[1])

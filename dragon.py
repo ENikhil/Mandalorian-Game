@@ -9,7 +9,7 @@ class Dragon(Element):
     def __init__(self, x, y, str):
         Element.__init__(self, x, y, ascii[6])
         self._lives = 10
-        self._name = "dragon"
+        self.setname("dragon")
         self._time = t.time()
         self.setlength(len(self._body[2]))
         self.printc()
@@ -28,7 +28,7 @@ class Dragon(Element):
         self._lives-=1
     
     def createBall(self):
-        if t.time()-self._time>2:
+        if t.time()-self._time>0.66:
             baraf = Ball(self.x()-1, self.y()+7)
             grid.appendlist(baraf)
             self._time=t.time()

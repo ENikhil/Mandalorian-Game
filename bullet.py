@@ -22,10 +22,12 @@ class Bullet(Element):
                     o.remove()
                     del o
                     self.remove()
-                elif o.type()==1 and (0<=self.x()-o.x()<=2 or 0<=o.x()-self.x()<=2) and 0<=self.y()-o.y()<=7:
+                    grid.addscore(1)
+                elif o.type()==1 and (0<=self.x()-o.x()<=2 or 0<=o.x()-self.x()<=2) and 0<=self.y()-o.y()<=8:
                     o.remove()
                     del o
                     self.remove()
+                    grid.addscore(1)
                 elif o.type() == 2:
                     flag = 0
                     for i in range(9):
@@ -36,6 +38,7 @@ class Bullet(Element):
                         o.remove()
                         del o
                         self.remove()
+                        grid.addscore(1)
             elif o.name() == "dragon":
                 if 0<=self.x()-o.x()<=o.length()-1 and (o.y()==self.y() or 0<=self.y()-o.y()<=14):
                     o.dec_lives()

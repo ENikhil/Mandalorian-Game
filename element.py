@@ -1,5 +1,5 @@
-import numpy as np
 import sys
+import colorama as c
 
 class Element:
     def __init__(self, x, y, str):
@@ -83,8 +83,26 @@ class Element:
             pass
         else:
             self.erase(ch, num)
+        a = c.Fore.WHITE + c.Style.BRIGHT
+        name = self._name
+        if name == "mando":
+            a = c.Fore.RED + c.Style.DIM
+        elif name == "bullet":
+            a = c.Fore.MAGENTA
+        elif name == "dragon":
+            a = c.Fore.GREEN + c.Style.DIM
+        elif name == "coin":
+            a = c.Fore.YELLOW
+        elif name == "ball":
+            a = c.Fore.BLUE
+        elif name == "beam":
+            a = c.Fore.CYAN
+        elif name == "magnet":
+            a = c.Fore.WHITE
+        elif name == "boost":
+            a = c.Fore.GREEN
         for i in range(self._height):
-            sys.stdout.write("\x1b[%d;%df%s" % (self._y+i, self._x, self._body[i]))
+            sys.stdout.write("\x1b[%d;%df%s" % (self._y+i, self._x, a + self._body[i]))
             sys.stdout.flush()
     
     def update_loc(self, matrix, ch, num=1):

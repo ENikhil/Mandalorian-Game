@@ -16,13 +16,26 @@ class Mandalorian(Element):
         self._bullet = "="
         self._timebullet = 0
         self._shield = 0
-        self._coins = 0
         self._boost = 0
-        self._type = "mando"
+        self.setname("mando")
         self._time = 0
         self._magnettime = 0
+        self._shieldtime = 0
         self._creationtime = t.time()
         self.printc()
+    
+    def shield(self):
+        return self._shield
+    
+    def toggleshield(self):
+        if self._shield == 0:
+            self._shield = 1
+        elif self._shield == 1:
+            self._shield = 0
+        self._shieldtime = t.time()
+    
+    def shieldtime(self):
+        return self._shieldtime
     
     def gravity(self):
         return self._gravity
@@ -30,14 +43,11 @@ class Mandalorian(Element):
     def lives(self):
         return self._lives
     
-    def coins(self):
-        return self._coins
-    
     def dec_lives(self):
         self._lives-=1
         
     def inc_lives(self):
-        self._coins-=10
+        self._score-=10
         self._lives+=1
     
     def acceltime(self):
@@ -59,7 +69,7 @@ class Mandalorian(Element):
         self._downvelocity=1
     
     def createBullet(self):
-        if t.time()-self._timebullet>1:
+        if t.time()-self._timebullet>1 and (grid.boss() == 0 or (grid.boss() == 1 and 10<=self.y()<len(grid.matrix())-9)):
             goli = Bullet(self.x()+self.length(), self.y()+1)
             grid.appendlist(goli)
             self._timebullet=t.time()
@@ -84,16 +94,16 @@ class Mandalorian(Element):
         if b > 0:
             self.update_loc(matrix, 'r', 1)
         elif b < 0:
-            self.update_loc(matrix, 'l', 1)
+            self.update_loc(matrix, 'l', 2)
         
     
     def move(self, matrix, num):
         if(kb.kbhit()):
             key = kb.getch()
             if key == 'a':
-                self.update_loc(matrix, 'l', 2)
+                self.update_loc(matrix, 'l', 2*grid.boost())
             elif key == 'd':
-                self.update_loc(matrix, 'r', 2)
+                self.update_loc(matrix, 'r', 2*grid.boost())
             elif key == 'w':
                 if self._downvelocity > 5:
                     self.update_loc(matrix, 'u', 1)
@@ -101,12 +111,14 @@ class Mandalorian(Element):
                     self.update_loc(matrix, 'u', 2)
                 self._time = t.time()
                 self.reset_downvelocity()
-            elif key == 's':
-                self.update_loc(matrix, 'd', 1)
+            #elif key == 's':
+            #    self.update_loc(matrix, 'd', 1)
             elif key == 'e':
                 self.createBullet()
             elif key == ' ':
-                self._shield = 1
+                if self._shield == 0 and (self._shieldtime == 0 or t.time()-self._shieldtime>60):
+                    self._shield = 1
+                    self._shieldtime = t.time()
             elif key == 'q':
                 quit()
         for o in grid.getlist():
@@ -115,13 +127,14 @@ class Mandalorian(Element):
                     o.remove()
                     del o
                     self.printc()
-                    self._coins+=1
+                    grid.addscore(1)
             elif o.name() == "boost":
                 if o.scope()==1 and (0<=o.x()-self.x()<=4 or 0<=self.x()-o.x()<=3) and (0<=o.y()-self.y()<=2 or 0<=self.y()-o.y()<=3):
                     o.remove()
                     del o
-                    if self._boost == 0:
-                        grid.toggleboost()
+                    #if grid.boost() == 1:
+                    grid.toggleboost()
+                    
             elif o.name() == "beam" and self._shield == 0:
                 if o.scope()==1 and o.type() == 0 and (0<=o.x()-self.x()<=4 or 0<=self.x()-o.x()<=16) and (0<=o.y()-self.y()<=2 or 0<=self.y()-o.y()<=0):
                     o.remove()
@@ -138,7 +151,7 @@ class Mandalorian(Element):
                 elif o.scope()==1 and o.type() == 2:
                     flag = 0
                     for i in range(9):
-                        if 0<=o.x()+2*i-self.x()<=4 and self.y()==o.y()-i:
+                        if 0<=o.x()+2*i-self.x()<=4 and -2<=self.y()-o.y()-i<=2:
                             flag = 1
                             break
                     if flag:
