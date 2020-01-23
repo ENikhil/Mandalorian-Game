@@ -119,6 +119,10 @@ class Mandalorian(Element):
                 if self._shield == 0 and (self._shieldtime == 0 or t.time()-self._shieldtime>60):
                     self._shield = 1
                     self._shieldtime = t.time()
+            elif key == 'l':
+                if grid.score()>=40:
+                    self._lives+=1
+                    grid.addlife()
             elif key == 'q':
                 quit()
         for o in grid.getlist():

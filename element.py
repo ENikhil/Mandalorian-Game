@@ -86,21 +86,21 @@ class Element:
         a = c.Fore.WHITE + c.Style.BRIGHT
         name = self._name
         if name == "mando":
-            a = c.Fore.RED + c.Style.DIM
+            a = c.Style.RESET_ALL + c.Fore.RED + c.Style.DIM
         elif name == "bullet":
-            a = c.Fore.MAGENTA
+            a = c.Style.RESET_ALL + c.Fore.MAGENTA
         elif name == "dragon":
-            a = c.Fore.GREEN + c.Style.DIM
+            a = c.Style.RESET_ALL + c.Fore.GREEN + c.Style.DIM
         elif name == "coin":
-            a = c.Fore.YELLOW
+            a = c.Style.RESET_ALL + c.Fore.YELLOW
         elif name == "ball":
-            a = c.Fore.BLUE
+            a = c.Style.RESET_ALL + c.Fore.BLUE
         elif name == "beam":
-            a = c.Fore.CYAN
+            a = c.Style.RESET_ALL + c.Fore.CYAN
         elif name == "magnet":
-            a = c.Fore.WHITE
+            a = c.Style.RESET_ALL + c.Fore.WHITE
         elif name == "boost":
-            a = c.Fore.GREEN
+            a = c.Style.RESET_ALL + c.Fore.GREEN
         for i in range(self._height):
             sys.stdout.write("\x1b[%d;%df%s" % (self._y+i, self._x, a + self._body[i]))
             sys.stdout.flush()

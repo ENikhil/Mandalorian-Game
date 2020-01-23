@@ -7,5 +7,7 @@ import time as t
 from firebeam import Beam
 from grid import grid
 import colorama as c
+from smh import ascii
 
-print(len("YOU BEAT THE GAME!!"))
+a = ascii[8].split('\n')
+print(a)

@@ -6,11 +6,12 @@ from mandalorian import Mandalorian
 from dragon import Dragon
 import time as t
 import random
+import colorama
 
 def stats(u, w, x, y, z, num):
     a = str(u)
     b = str(w)
-    c = str(x)
+    c = str(int(x))
     if num==1:
         lmao = "    TIME REMAINING= " + c
     elif num==2:
@@ -34,9 +35,9 @@ last_gen_time = 0
 last_mov_time = 0
 gen_time = 2
 mov_time = 0.1
-magnet_time = boost_time = creation_time
+magnet_time = boost_time = scen_time = creation_time
 mando.setacceltime(t.time())
-boss_time = 10
+boss_time = 90
 stats(mando.lives(), grid.score(), boss_time-t.time()+creation_time, mando.shield(), mando.shieldtime(), 1)
 con = 0
 
@@ -66,9 +67,13 @@ while(1):
     if t.time()-magnet_time>35:
         grid.generate(5)
         magnet_time = t.time()
-    elif t.time()-boost_time>20:
+    elif t.time()-boost_time>15 and t.time()-creation_time<70:
         grid.generate(4)
         boost_time = t.time()
+    elif t.time()-scen_time>20:
+        num = random.randrange(6, 8, 1)
+        grid.generate(num)
+        scen_time = t.time()
     num = random.randrange(0, 4, 1)
     grid.generate(num)  #    last_gen_time = t.time()
     if t.time()-creation_time>=boss_time:
@@ -116,6 +121,7 @@ if con == 1:
     os.system('clear')
     sys.stdout.write("\x1b[%d;%df%s" % (1, 1, "YOU LOST THE GAME!!"))
     sys.stdout.flush()
+    quit()
 elif con == 2:
     os.system('clear')
     sys.stdout.write("\x1b[%d;%df%s" % (1, 1, "YOU BEAT THE GAME!!"))
@@ -125,3 +131,4 @@ elif con == 2:
     sys.stdout.flush()    
     sys.stdout.write("\x1b[%d;%df%s" % (3, 8, yoda[1]))
     sys.stdout.flush()
+    quit()

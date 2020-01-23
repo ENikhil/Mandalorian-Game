@@ -3,6 +3,7 @@ from coin import Coin
 from firebeam import Beam
 from boost import Boost
 from magnet import Magnet
+from scenery import AT, Ship
 import random
 from smh import ascii
 import time as t
@@ -67,6 +68,9 @@ class Grid():
     def addscore(self, a):
         self._score+=a
     
+    def addlife(self):
+        self._score-=50
+    
     def boss(self):
         return self._boss
     
@@ -102,6 +106,14 @@ class Grid():
             chep = Magnet(self._rowlen-9, y, ascii[5])
             self._objectlist.append(chep)
             self._lastmagnet=t.time()
+        elif num == 6:
+            y = 42
+            bandook = AT(self._rowlen-19, y, ascii[8])
+            self._objectlist.append(bandook)
+        elif num == 7:
+            y = 7
+            gaadi = Ship(self._rowlen-27, y, ascii[9])
+            self._objectlist.append(gaadi)
 
 a = getTerminalSize()
 grid = Grid(a[0], a[1])
