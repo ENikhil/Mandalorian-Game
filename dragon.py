@@ -8,7 +8,7 @@ import time as t
 class Dragon(Element):
     def __init__(self, x, y, str):
         Element.__init__(self, x, y, ascii[6])
-        self._lives = 10
+        self._lives = 20
         self.setname("dragon")
         self._time = t.time()
         self.setlength(len(self._body[2]))

@@ -69,7 +69,7 @@ class Grid():
         self._score+=a
     
     def addlife(self):
-        self._score-=50
+        self._score-=30
     
     def boss(self):
         return self._boss
