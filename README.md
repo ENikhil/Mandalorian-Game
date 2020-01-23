@@ -12,26 +12,26 @@ This README file contains :
 
 Classes created
 -------------------
-Element
-Mandalorian
-Beam
-Bullet
-Ball (Ice balls)
-AT (Scenery)
-Ship (Scenery)
-Coin
-Magnet
-Boost
-KBHit (for Input)
+>- Element
+>- Mandalorian
+>- Beam
+>- Bullet
+>- Ball (Ice balls)
+>- AT (Scenery)
+>- Ship (Scenery)
+>- Coin
+>- Magnet
+>- Boost
+>- KBHit (for Input)
 
 
 Rules of the Game
 -------------------
->- You control the mandalorian throughout his efforts to get past the obstacles presented to him and help him beat Viserion so that he can save Baby Yoda.
->- The obstacles in the form of fire beams are undergoing random walk, but *contact* with them can kill your protagonist.
->- You have 3 lives, i.e. getting killed 3 times will result in a **GAME OVER**.
->- Destroying the beams with your bullets and collecting coins adds to your score.
->- The inital stage of obstacles lasts for 90 seconds, after which you have to kill the boss dragon
+1. You control the mandalorian throughout his efforts to get past the obstacles presented to him and help him beat Viserion so that he can save Baby Yoda.
+2. The obstacles in the form of fire beams are undergoing random walk, but *contact* with them can kill your protagonist.
+3. You have 3 lives, i.e. getting killed 3 times will result in a **GAME OVER**.
+4. Destroying the beams with your bullets and collecting coins adds to your score.
+5. The inital stage of obstacles lasts for 90 seconds, after which you have to kill the boss dragon
 
 
 Controls
@@ -48,6 +48,6 @@ Controls
 Requirements and running the code
 -------------------
 >- Python3
-sudo apt-get install python3
+>- sudo apt-get install python3
 >- colorama
-pip3 install colorama
+>- pip3 install colorama
